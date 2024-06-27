@@ -213,7 +213,6 @@ def func(a, b):
 print(func(5, 10))
 
 
-
 # List 참조
 a = [10, 20]
 b = a
@@ -222,3 +221,9 @@ print(a)
 b = a
 b += [30, 40]  # 동일한 리스트 객체를 참조하는 a에도 반영
 print(a)
+
+
+# 논리 연산자 AND
+x = 100
+y = 50
+print(x and y)  # x가 True 이면 y, False 이면 x를 반환
