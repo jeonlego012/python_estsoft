@@ -176,7 +176,7 @@ print(os.getpid())
 def delete_dir(dir_path):
     if os.path.exists(dir_path):
         for file in os.scandir(dir_path):
-            os.remove(file.path)
+            os.remove(file.path)  # 휴지통에도 안 감
             print(f"file<{file.path}> removed")
         os.rmdir(dir_path)
         return 'Remove All File&Directory'
