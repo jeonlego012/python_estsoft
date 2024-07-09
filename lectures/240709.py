@@ -12,7 +12,7 @@ import webbrowser
 import requests
 import time
 
-webbrowser.open('https://naver.com/robots.txt')  # SEO 검색 엔진 최적화. robots.txt 국제표준으로 모든 사이트에서 제공
+webbrowser.open('https://naver.com/robots.txt')  # robots.txt 검색로봇에게 사이트 및 웹페이지를 수집할 수 있도록 허용하거나 제한하는 국제 권고안. 국제표준으로 모든 사이트에서 제공. SEO(검색 엔진 최적화)
 webbrowser.open_new('https://google.com')
 webbrowser.open_new_tab('https://daum.net')
 
@@ -175,7 +175,6 @@ rows = [(5001, 'James Hoog', 'New York', 0.15), (5002, 'Nail Knite', 'Paris', 0.
 
 query = 'INSERT INTO tbl_salesman VALUES (%s, %s, %s, %s)'
 
-db_cursor = db_con.cursor()
 db_cursor = db_con.cursor()
 db_cursor.executemany(query, rows)
 db_con.commit()
