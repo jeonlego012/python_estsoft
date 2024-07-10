@@ -1,0 +1,83 @@
+<!--레이아웃-->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset='utf-8'>
+		<title>title test 파일</title>
+		head: body 전에 정의해놓는 것들
+		<!-- css 
+		<style>
+			nav {background-color: gray; font-size: 140%; text-align: center}
+		</style>-->
+		
+		<!-- css 파일 링크, relationship stylesheet 타입 text/css -->
+		{% load static %}
+		<link href="{% static 'main/test.css' %}" rel="stylesheet" type="text/css">
+		<!-- javascript -->
+		<script type="text/javascript">
+			function test() {
+				alert('button clicked!');
+			}
+		</script>
+		
+  </head>
+	</head>
+	<body>
+	
+	<nav>navigator</nav>
+	<!--<nav style="background-color: gray; font-size: 140%; text-align: center">-->
+	<nav>
+		<a href style="color: red">lalal</a>
+		<a href style="color: blue">hahah</a>
+	</nav>
+	
+	<nav class="nav1">
+		<a href style="color: red">lalal</a>
+		<a href style="color: blue">hahah</a>
+	</nav>
+	
+	<nav id="nav2">
+		<a href style="color: red">lalal</a>
+		<a href style="color: blue">hahah</a>
+	</nav>
+	
+	<h1>headline1</h1>
+	<h2>headlin2</h2>
+	<label>ID</label>
+	<input value="1">
+	<br>
+	<label>PWD</label>
+	<input value="2">
+	<br>
+	<button onclick="test()">버튼</button>
+	<input type="checkbox"></input>
+	<input type="radio"></input>
+	<hr>
+	<button type="button" class="btn btn-warning">버튼</button>
+	<button type="button">버튼</button>
+	<hr>
+	<table>
+		<tr>
+			<th>test1</th>
+			<th>test2</th>
+			<th>test3</th>
+		</tr>
+		<tr>
+			<td>data1</td>
+			<td>data2</td>
+			<td>data3</td>
+		</tr>
+		<tr>
+			<td>data1</td>
+			<td>data2</td>
+			<td>data3</td>
+		</tr>
+	</table>
+	<a href=https://namu.wiki/w/%EB%84%A4%EB%AA%A8%EB%B0%94%EC%A7%80%20%EC%8A%A4%ED%8F%B0%EC%A7%80%EB%B0%A5>hyper reference link</a><br>
+	<img width="300" src=https://i.namu.wiki/i/ZOX0aIJHTU2twsLLqZ39ky7u6odhgg6FxlFDPyeDplsB-WdfrsQMxPiiHd6d-dtWt5Y6bYYUcaNgmYWpHFlXQpspTYwIzejkregV8FVWqrQ0Ar0XwQStvBRTMPZGuPQ4GqQQihhoaMfacDQlR35vaQ.webp>
+	<p>img(tag) src(attribute)=서버상의 파일 경로</p>
+	<hr>line
+	<p>p 태그 paragraph : 기본 글자</p>
+	<p>paragraph</p>
+	</body>
+</html>
