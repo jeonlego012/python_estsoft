@@ -1,0 +1,6 @@
+nav {background-color: skyblue; font-size: 140%; text-align: center;}
+/* class: .*/
+.nav1 {background-color: gray; font-size: 140%; text-align: center;}
+/* id: # */
+#nav2 {background-color: green; font-size: 140%; text-align: center;}
+table {border: 1px solid black;}
