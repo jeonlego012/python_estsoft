@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>
+			과제용 로그인 페이지
+		</title>
+	</head>
+	<body>
+		<div class = "form-group">
+			<label>ID</label>
+			<input id="id" type="text" placeholder="아이디"></input>
+		</div>
+		<div class = "form-group">
+			<label>PASSWORD</label>
+			<input id="pwd" type="password" placeholder="숫자,특수문자 포함 8~12자" width="200"></input>
+		</div>
+		<div class = "form-group">
+			<button id="pwd" onclick="login()">LogIn</button>
+			<script type="text/javascript">
+				function login() {
+					var id = document.getElementById("id").value;
+					var pwd = document.getElementById("pwd").value;
+					
+					alert("login success!\nid: "+id+", password: "+pwd);
+				}
+			</script>
+		</div>
+	</body>
+</html>
