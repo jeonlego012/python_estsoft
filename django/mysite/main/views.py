@@ -10,3 +10,4 @@ def index(request):
 def test(request):
     s = "<html><h1>test</h1></html>"
     return HttpResponse(s)
+
