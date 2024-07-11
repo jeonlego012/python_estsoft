@@ -6,3 +6,7 @@ from django.http import HttpResponse
 def index(request):
     # return HttpResponse("Hello, world. You're at the main index.")
     return render(request, 'templates/main/test.html')
+
+def test(request):
+    s = "<html><h1>test</h1></html>"
+    return HttpResponse(s)
