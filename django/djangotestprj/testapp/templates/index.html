@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ko">
+{% extends "base.html" %}
+
+<body>
+    {% block content %}
+    <h1>
+        &lt;변수 주고받기&gt;
+    </h1>
+    <h2>
+        {# template tag #}
+        {% autoescape on %}
+        {{ txt }}<br>
+        {{ txt1 }}<br>
+        {{ txt2 }}<br>
+        {{ txt3 }}<br>
+        {{ txt4 | default:"기본값"}}<br>
+        {{ txt5 | truncatechars:10}}<br>
+        {{ txt6 }}<br>
+        {{ txt7 }}
+        {% endautoescape %}
+
+        {% if txt5 == 'editt' %}
+            {{ txt4 }}
+        {% elif txt5 == 'edit' %}
+            {{ txt5 }}
+        {% else %}
+            {{ txt1 }}
+        {% endif %}
+
+        <br>
+        {{ member_list.0 }}<br>
+        {{ member_list.1 }}<br>
+
+        {# 변수 선언 #}
+        {% with var_test='variable' %}
+        {{ var_test }}<br>
+        {% endwith %}
+
+        <ul>
+            
+
+            {% for member in member_list %}
+            
+                <li>
+                    {{ forloop.counter }}
+                    {{ member.name }}
+                    {{ member.phone }}
+                </li>
+
+            {% endfor %}
+
+        </ul>
+        {% comment %}
+        asdfasd
+        asdfasfd
+        asdfsafd
+        {% endcomment %}
+        {# comment #}
+
+    </h2>
+    <ol>
+        GET Method
+        <li>
+            {# get1?v1=10&v2=20&v3=test<a href="get1?v1=10&v2=20&v3=test">click</a>#}
+            get1?v1=10&v2=20&v3=test<a href="{% url 'testapp:get1'%}?v1=10&v2=20&v3=test">click</a>
+        </li>
+        <li>
+            get2/10/20/test/<a href="get2/10/20/test/">click</a>
+        </li>
+    </ol>
+    <br>
+    <ol>
+        POST Method - form action post~~
+        <li>
+            post1
+            <form action="post1/" method="post">
+                {% csrf_token %}
+                <input type="text" name="v1">
+                <input type="text" name="v2">
+                <input type="text" name="v3">
+                <input type="submit" value="request">
+            </form>
+        </li>
+        <li>
+            post2/10/20/
+            <form action="post2/{v1}/{v2}/" method="post">
+                {% csrf_token %}
+                <input type="text" name="v1">
+                <input type="text" name="v2">
+                <input type="submit" value="request">
+            </form>
+        </li>
+    </ol>
+    <br>
+    <ol>
+        Class based GET Method
+        <li>
+            get3?v1=10&v2=20&v3=test<a href="get3?v1=10&v2=20&v3=test">click</a>
+        </li>
+        <li>
+            get4/10/20/test/<a href="get4/10/20/test/">click</a>
+        </li>
+    </ol>
+    <br>
+    <ol>
+        Class based POST Method - form action post~~
+        <li>
+            post3
+            <form action="post3/" method="post">
+                {% csrf_token %}
+                <input type="text" name="v1">
+                <input type="text" name="v2">
+                <input type="text" name="v3">
+                <input type="submit" value="request">
+            </form>
+        </li>
+        <li>
+            post4/10/20/
+            <form action="post4/{v1}/{v2}/" method="post">
+                {% csrf_token %}
+                <input type="text" name="v1">
+                <input type="text" name="v2">
+                <input type="submit" value="request">
+            </form>
+        </li>
+    </ol>
+    <br>
+    <ol>
+        One Class based GET Method
+        <li>
+            getpost1/get5?v1=10&v2=20&v3=test<a href="getpost1/get5?v1=10&v2=20&v3=test">click</a>
+        </li>
+        <li>
+            getpost2/get6/10/20/test/<a href="getpost2/get6/10/20/test/">click</a>
+        </li>
+    </ol>
+    <br>
+    <ol>
+        One Class based POST Method - form action post~~
+        <li>
+            getpost2/post5/
+            <form action="getpost1/post5/" method="post">
+                {% csrf_token %}
+                <input type="text" name="v1">
+                <input type="text" name="v2">
+                <input type="text" name="v3">
+                <input type="submit" value="request">
+            </form>
+        </li>
+        <li>
+            getpost2/post6/10/20/
+            <form action="getpost2/post6/{v1}/{v2}/" method="post">
+                {% csrf_token %}
+                <input type="text" name="v1">
+                <input type="text" name="v2">
+                <input type="submit" value="request">
+            </form>
+        </li>
+    </ol>
+    
+    {% endblock %}
+</body>
+</html>
