@@ -1,0 +1,39 @@
+<!--미션1) DB에서 Member 테이블 객체 정보를 얻어서 출력해보시오. http get, url pattern, views.py에서 render-->
+<!--미션4) row옆에 수정 링크를 클릭하면 form.html에 name, age, explain 값이 들어가있게 하시오.-->
+<!--미션5) 미션4에서 name을 제외한 age 혹은 explain 값을 수정하시오.-->
+<!DOCTYPE html>
+{% load static %}
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ModelTestPrj</title>
+    <link href="{% static 'style.css' %}" rel="stylesheet" type="text/css">
+</head>
+<body>
+    <h1>list page</h1>
+    <form action="{% url 'testapp:form' %}" method='POST'>
+        {% csrf_token %}
+        <button>입력하러가기</button>
+    </form>
+    <hr>
+    <table>
+        <tr>
+            <th>id</th>
+            <th>name</th>
+            <th>age</th>
+            <th>explain</th>
+            <th>action</th>
+        </tr>
+        {% for member in members %}
+        <tr>
+            <td>{{ member.id }}</td>
+            <td>{{ member.name }}</td>
+            <td>{{ member.age }}</td>
+            <td>{{ member.explain }}</td>
+            <td><a href= "{% url 'testapp:form' %}?id={{member.id}}">수정</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

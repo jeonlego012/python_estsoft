@@ -1,0 +1,41 @@
+<!--미션2) form.html에서 form action으로 name, age, explain 값을 post로 전송해서 db에 저장하시오-->
+<!--미션3) list.html에서 입력 버튼을 누르면 form.html로 이동 후 값이 입력되면 db에 저장 후 list.html로 이동하시오-->
+<!DOCTYPE html>
+{% load static %}
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ModelTestPrj</title>
+    <link href="{% static 'style.css' %}" rel="stylesheet" type="text/css">
+</head>
+<body>
+    <h1>form page</h1>
+    
+    <form action="save/?id={{ id }}" method="post" onsubmit="return checkName();">
+        {% csrf_token %}
+        <ul>
+            이름 <input type="text" id="name" name="name" value={{ name }}>
+        </ul>
+        <script type="text/javascript">
+            function checkName() {
+                origin_name = "{{ name }}"
+                if(origin_name != "" & origin_name != document.getElementById('name').value) {
+                    alert('이름은 수정할 수 없습니다!');
+                    return false;
+                }
+                return true;
+            }
+        </script>
+        <ul>
+            나이 <input type="text" name="age" value={{ age }}>
+        </ul>
+        <ul>
+            설명 <input type="text" name="explain" value={{ explain }}>
+        </ul>
+        <ul>
+            <input type="submit" value="저장">
+        </ul>
+    </form>
+</body>
+</html>
