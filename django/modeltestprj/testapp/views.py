@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.db.models import Q
 from django.template import loader
 from django.http import HttpResponse
@@ -36,51 +36,54 @@ def list(request):
     }
     
     # 1
-    # tpl = loader.get_template('list.html')
-    # html = tpl.render(context)
-    # return HttpResponse(html)
+    tpl = loader.get_template('list.html')
+    html = tpl.render(context)
+    return HttpResponse(html)
 
     # 2
-    return render(request, 'list.html', context)
-
+    # return render(request, 'list.html', context)
 
 def form(request):
-    if request.method == 'POST' :
-        return render(request, 'form.html')
-    else:
-        print(request.method + request.GET['id'])
-        member = Member.objects.get(id = request.GET['id'])
-        print(member.name)
-        context = {
-            'id': member.id,
-            'name': member.name,
-            'age': member.age,
-            'explain': member.explain,
-        }
-        return render(request, 'form.html', context)
-    
-
-def save(request):
-    value_dict = request.POST
-    id = request.GET['id']
-    name = value_dict['name']
-    age = value_dict['age']
-    explain = value_dict['explain']
-    
-    # 생성
-    if id == '':
-        member = Member(name=name, age=age, explain=explain)
-    # 수정
-    else:
-        member = Member.objects.get(id=id)
-        member.name = name
-        member.age = age
-        member.explain = explain
+    if request.method == "POST":
+        keys = request.GET.keys()
+        value_dict = request.POST
+        name = value_dict['name']
+        age = value_dict['age']
+        explain = value_dict['explain']
         
-    
-    # Member.objects.create(name=name, age=age, explain=explain)
+        # 수정
+        if 'id' in keys:
+            id = request.GET['id']
+            member = Member.objects.get(id=id)
+            member.name = name
+            member.age = age
+            member.explain = explain
 
-    member.save()
-
-    return render(request, 'save.html')
-
+        # 생성
+        else:
+            member = Member(name=name, age=age, explain=explain)
+            
+        member.save()
+        
+        return redirect('testapp:list')
+        
+    else:
+        keys = request.GET.keys()
+        
+        # 수정
+        if 'id' in keys:
+            id = request.GET['id']
+            member = Member.objects.get(id = id)
+            
+            context = {
+                'name': member.name,
+                'age': member.age,
+                'explain': member.explain,
+            }
+            
+            return render(request, 'form.html', context)
+        
+        # 생성
+        else:
+            return render(request, 'form.html')
+        

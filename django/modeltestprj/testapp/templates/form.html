@@ -11,8 +11,7 @@
 </head>
 <body>
     <h1>form page</h1>
-    
-    <form action="save/?id={{ id }}" method="post" onsubmit="return checkName();">
+    <form method="post" onsubmit="return checkName();">
         {% csrf_token %}
         <ul>
             이름 <input type="text" id="name" name="name" value={{ name }}>

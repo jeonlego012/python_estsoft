@@ -12,8 +12,7 @@
 </head>
 <body>
     <h1>list page</h1>
-    <form action="{% url 'testapp:form' %}" method='POST'>
-        {% csrf_token %}
+    <form action="{% url 'testapp:form' %}">
         <button>입력하러가기</button>
     </form>
     <hr>
