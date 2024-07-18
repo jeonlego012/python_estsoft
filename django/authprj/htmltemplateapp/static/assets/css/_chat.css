@@ -1,0 +1,113 @@
+
+
+/*----------------------------------------
+  Chat
+------------------------------------------*/
+.chat-area{
+  margin: 0px;
+}
+.chat-area li{
+  display: block;
+  position: relative;
+  margin: 0 0 50px 0;
+}
+.chat-area li.leftside{
+  padding-left: 25px;
+}
+.chat-area .leftside .msg-area{
+    border-radius: 2px;
+    background: #ffffff;
+    min-height: 60px;
+    padding: 15px 15px 15px 30px;
+}
+
+.chat-area li.rightside{
+  padding-right: 25px;
+}
+.chat-area .rightside .msg-area{
+    border-radius: 2px;
+    background: #ffffff;
+    min-height: 60px;
+    padding: 15px 30px 15px 15px;
+}
+.chat-area li.rightside .userpic{
+  left: auto;
+  right: 0px;
+}
+.chat-area .userpic{
+    position: absolute;
+    background: #ccc;
+    height: 44px;
+    width: 44px;
+    border-radius: 50%;
+    left: 0px;
+    margin-top: 0px;
+  top: 9px;
+}
+.chat-area .msg{
+  margin: 0px;
+}
+.chat-area .leftside .time{
+  font-size: 80%;
+  margin-top: 5px;
+  float: left;
+  opacity: 0.8;
+}
+.chat-area .rightside .time{
+  font-size: 90%;
+  margin-top: 5px;
+  right: 0px;
+  left: auto;
+  float: right;
+}
+.chat-area .ui-mediabox{
+  margin: 15px -0.75rem 0px -0.75rem;
+}
+
+
+
+/*Chat message type box*/
+.chat-message-area{
+  position: fixed;
+    z-index: 998;
+    bottom: 75px;
+    margin: 0 auto;
+    max-width: 1280px;
+    width: 90%;
+}
+
+.chat-message-area .input-field .prefix ~ textarea{
+  min-height: 40px;
+  padding-left: 20px;
+}
+.chat-message-area .input-field .prefix ~ label{
+  margin-left: 5px !important;
+}
+.chat-message-area .input-field .prefix{
+  left: auto;
+  right: 5px;
+  cursor: pointer;
+  bottom: 13px;
+  height: 30px;
+  top: auto;
+  width: 30px;
+  line-height: 30px;
+  opacity: 0.7;
+}
+
+/*----------------------------------------
+  Site - Dark Mode - Chat
+----------------------------------------*/
+[data-site_mode="dark"] .chat-area .msg-area{
+  background-color: var(--dark-800);
+}
+
+[data-site_mode="dark"] .setting-box {
+  background-color: var(--dark-800);
+}
+[data-site_mode="dark"] .setting-box {
+  background-color: var(--dark-800);
+}
+[data-site_mode="dark"] .setting-box h6 {
+    color: #CFD8DC;
+}
