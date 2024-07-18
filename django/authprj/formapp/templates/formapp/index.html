@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AuthPrj</title>
+</head>
+<body>
+    <div style="text-align: center;">
+        <h1>formapp index page</h1>
+        <form method="POST">
+            {% csrf_token %}
+            {{ userform.as_p }}
+            {{ usermodelform.as_p }}
+            <p>
+                <input type="submit" value="저장">
+            </p>
+        </form>
+    </div>
+</body>
+</html>
+
