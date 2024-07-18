@@ -7,6 +7,7 @@
 </head>
 <body>
     <h1>index page</h1>
+    {{request.session.login_user}}
     {# user라는 내장 변수가 있음 #}
     {% if user.is_authenticated == True %}
         <p>
