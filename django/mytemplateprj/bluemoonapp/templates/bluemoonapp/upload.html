@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="kr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>mytemplateprj</title>
+    </head>
+    <body>
+        <ul>
+            <h3>File Upload Page</h3>
+            <form method="post" id="upload" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form }}
+                <button type="submit" > upload </button>
+            </form> 
+        </ul>
+    </body>
+</html>
