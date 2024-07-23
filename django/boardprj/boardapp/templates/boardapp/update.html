@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BoardPrj</title>
+</head>
+
+<body>
+    <h1>Update Page</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <table border="2">
+            {{ form.as_table }}
+        </table>
+        <input type="submit" value="save">
+    </form>
+    <a href="{% url 'boardapp:detail' object.id %}"><button>cancel</button></a>
+</body>
+
+</html>

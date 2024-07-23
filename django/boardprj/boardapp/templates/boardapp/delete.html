@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BoardPrj</title>
+</head>
+<body>
+    <h1>Delete Page</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <p>Are you sure you want to delete "{{ object.title }}"?</p>
+        {{ form }}
+        <input type="submit" value="confirm">
+    </form>
+    <a href="{% url 'boardapp:detail' object.id %}"><button>cancel</button></a>
+</body>
+</html>

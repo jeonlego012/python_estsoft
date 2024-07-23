@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BoardPrj</title>
+</head>
+
+<body>
+    <h1>Detail Page</h1>
+    <h2>title</h2>
+    {{ object.title }}
+    <h2>contents</h2>
+    {{ object.contents }}<br><br>
+    <p>view {{ object.view_count }}</p>
+    <a href="{% url 'boardapp:update' object.id %}"><button>update</button></a><br>
+    <a href="{% url 'boardapp:delete' object.id %}"><button>delete</button></a><br>
+    <a href="{% url 'boardapp:list' %}"><button>go to list page</button></a>
+</body>
+
+</html>
