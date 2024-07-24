@@ -12,3 +12,8 @@ th, td {
 ul {
     padding: 0;
 }
+
+.page_button {
+    text-decoration-line: none;
+    color:blue;
+}

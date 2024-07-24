@@ -35,7 +35,7 @@ def create(request):
 # class-based
 class BoardListView(ListView):
     model = Board
-    paginate_by = 20
+    paginate_by = 4
 
     # 내장 객체. default는 board_list.html({model이름}_list.html)
     template_name="boardapp/list.html"
@@ -43,7 +43,8 @@ class BoardListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         paginator = context['paginator']
-        print(f"result!! {paginator.page_range} {paginator.count}")
+        page = context['page_obj']
+        print(f"result!!! {page.start_index()} {page.end_index()}")
 
         return context
 

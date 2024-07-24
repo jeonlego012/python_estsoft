@@ -1,18 +1,37 @@
 <!DOCTYPE html>
 {% load static %}
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="{% static 'boardapp/style.css' %}" rel="stylesheet" type="text/css">
     <title>Boardprj</title>
 </head>
-
 <body>
     <h1>List Page</h1>
+    <a href="?page=1" class="page_button"><<</a>
+    {% if page_obj.previous_page_number > 1 %}
+        <a href="?page={{page_obj.previous_page_number}}" class="page_button"><</a>
+    {% else %}
+        <a href="?page=1" class="page_button"><</a>
+    {% endif %}
+    {% for page_num in paginator.page_range %}
+        {% if page_num == page_obj.number %}
+            <span style="color: blue;">{{page_num}}</span>
+        {% else %}
+            <a href="?page={{page_num}}">{{page_num}}</a>
+        {% endif %}
+    {% endfor %}
+    {% if page_obj.next_page_number < paginator.num_pages %}
+        <a href="?page={{page_obj.next_page_number}}" class="page_button">></a>
+    {% else %}
+        <a href="?page={{paginator.num_pages}}" class="page_button">></a>
+    {% endif %}
+    <a href="?page={{paginator.num_pages}}" class="page_button">>></a>
+    {% comment %} <a href="?page={{paginator.page_range|length}}" class="page_button">>></a> {% endcomment %}
     <table>
         <tr>
+            <th>id</th>
             <th>title</th>
             <th>author</th>
             <th>view_count</th>
@@ -21,6 +40,7 @@
         </tr>
         {% for board in object_list %}
         <tr>
+            <td>{{ board.id }}</td>
             <td><a href="{% url 'boardapp:detail' board.id %}">{{ board.title }}</a></td>
             <td>{{ board.author }}</td>
             <td>{{ board.view_count }}</td>
@@ -29,12 +49,7 @@
         </tr>
         {% endfor %}
     </table>
-    <!-- {% for page in page_obj %}
-    {{ page.title }}
-    {% endfor %}<br> -->
-    << {% for page in page_obj.paginator.page_range %} {{page}} {% endfor %}>>
-        <br>
-        <a href="{% url 'boardapp:create' %}"><button>create</button></a>
+    <br>
+    <a href="{% url 'boardapp:create' %}"><button>create</button></a>
 </body>
-
 </html>
