@@ -1,6 +1,11 @@
+from typing import Any
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
+from django.views.generic import FormView
+from django.template import TemplateDoesNotExist
+from django.http import Http404
 
 from .forms import UserLoginModelForm, UserRegisterForm, UserChangePasswordForm
 
@@ -90,3 +95,65 @@ def changePassword(request):
     }
     
     return render(request, 'authapp/forgotPassword.html', context)
+
+# class-based
+class StaticView(FormView):
+    def get(self, request, page, *args, **kwargs):
+        self.template_name = 'authapp/' + page
+        response = super(StaticView, self).get(request, page, *args, **kwargs)
+        
+        try:
+            return response.render()
+        except TemplateDoesNotExist:
+            raise Http404()
+        
+    def get_context_data(self, **kwargs):
+        if self.kwargs["page"] == "login.html":
+            userform = UserLoginModelForm(label_suffix='')
+        elif self.kwargs["page"] == "register.html":
+            userform = UserRegisterForm(label_suffix='')
+        context = {
+            'userform': userform,
+        }
+        return context
+    
+    def post(self, request, page, *args, **kwargs):
+        self.template_name = 'authapp/' + page
+        context = self.get_context_data(**kwargs)
+        
+        if page == "login.html":
+            userform = UserLoginModelForm(request.POST)
+            username = userform.data["username"]
+            password = userform.data["password"]
+            user = authenticate(username=username, password=password)
+
+            if user is not None:
+                login(request, user)
+                
+                self.success_url = '/index/index.html'
+                
+                return HttpResponseRedirect(self.success_url)
+            else:
+                return self.render_to_response(context) 
+                
+        elif page == "register.html":
+            userform = UserRegisterForm(request.POST)
+
+            email = userform.data["email"]
+            username = userform.data["username"]
+            password = userform.data["password"]
+            password2 = userform.data["password2"]
+        
+            if password == password2:
+                user = User.objects.create_user(email=email, username=username, password=password)
+                login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+                
+                self.success_url = '/index/index.html'
+                return HttpResponseRedirect(self.success_url)
+            
+        
+        
+        try:
+            return self.render_to_response(context)
+        except TemplateDoesNotExist:
+            raise Http404()

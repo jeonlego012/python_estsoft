@@ -14,6 +14,9 @@ from pathlib import Path
 import os
 import pymysql
 
+from dotenv import load_dotenv
+load_dotenv()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -39,6 +42,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    #'account.apps.AccountConfig',
+    'social_django',
+    'django_extensions',
     'index',
     'authapp',
 ]
@@ -54,6 +60,47 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'legotemplate.urls'
+
+# OAuth
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    # 'account.authentication.EmailAuthBackend',
+    # 'social_core.backends.facebook.FacebookOAuth2',
+    # 'social_core.backends.twitter.TwitterOAuth',
+    'social_core.backends.google.GoogleOAuth2',
+]
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.getenv('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY') # Google Client ID
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.getenv('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET') # Google Client Secret
+
+# SOCIAL_AUTH_FACEBOOK_KEY = '' # Facebook App ID
+# SOCIAL_AUTH_FACEBOOK_SECRET = '' # Facebook App Secret
+# SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+
+# SOCIAL_AUTH_TWITTER_KEY = '' # Twitter API Key
+# SOCIAL_AUTH_TWITTER_SECRET = '' # Twitter API Secret
+
+SOCIAL_AUTH_PIPELINE = [
+    'social_core.pipeline.social_auth.social_details',
+    'social_core.pipeline.social_auth.social_uid',
+    'social_core.pipeline.social_auth.auth_allowed',
+    'social_core.pipeline.social_auth.social_user',
+    'social_core.pipeline.user.get_username',
+    'social_core.pipeline.user.create_user',
+    #'account.authentication.create_profile',
+    'social_core.pipeline.social_auth.associate_user',
+    'social_core.pipeline.social_auth.load_extra_data',
+    'social_core.pipeline.user.user_details',
+]
+
+# SMTP
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST = 'smtp.naver.com'
+EMAIL_USE_TILS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD'),
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 TEMPLATES = [
@@ -85,7 +132,7 @@ DATABASES = {
         "ENGINE": "django.db.backends.mysql",
         "NAME": "legotemplate_db",
         "USER": "lego",
-        "PASSWORD": "legolego",
+        "PASSWORD": os.getenv('DB_USER_PASSWORD'),
         "HOST": "223.130.143.15",
         "PORT": "3306",
     }
@@ -127,6 +174,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+# https://docs.djangoproject.com/en/5.0/ref/settings/#static-files
+# python manage.py collectstatic 명령이 참조하는 설정
+# STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# 정적 경로를 찾는 곳
+STATICFILES_DIRS = [ 
+    BASE_DIR/ "static",
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
