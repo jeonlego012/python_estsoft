@@ -22,7 +22,6 @@ urlpatterns = [
     path('index/', include('index.urls')),
     path('authapp/', include('authapp.urls')),
     
-    path('', include('django.contrib.auth.urls')),
     re_path(r'^', include('social_django.urls', namespace='social')),
 
 ]

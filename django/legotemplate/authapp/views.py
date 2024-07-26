@@ -79,11 +79,19 @@ def changePassword(request):
         password = userform.data["password"]
         password2 = userform.data["password2"]
         
-        user = User.objects.get(email=email)
-        print(f"result!! {email} {password} {password2} {user.username}")
+        try:
+            user = User.objects.get(email=email)
+        except :
+            userform = UserChangePasswordForm(label_suffix='')
+            context = {
+                'userform': userform,
+            }
+            return render(request, 'authapp/forgotPassword.html', context)
         
+        print(f"result!! {email} {password} {password2} {user.username}")
+            
         if password == password2:
-            user.password = password
+            user.set_password(password)
             user.save()
             
             return redirect('index:index')
