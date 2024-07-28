@@ -48,7 +48,9 @@
                 <div class="form-group">{{ userform.as_div }}</div>
                 <div>
                   <input type="submit" class="btn btn-accent" value="Login" /><br /><br />
-                  <a href="{% url 'social:begin' 'google-oauth2' %}">Sign in with Google<br /></a>
+                  <img class = "kakao" onclick="location.href= '{% url 'social:begin' 'google-oauth2' %}'" src="/static/authapp/images/google_login.png" alt="" ></button><br><br>
+                  {% load socialaccount %}
+                  <img class = "kakao" onclick="location.href= '{% provider_login_url 'kakao' method='oauth2' %}'" src="/static/authapp/images/kakao_login.png" alt=""><br><br>
                   No account?
                   <a href="/authapp/register.html">Register</a><br />
                   Forgot password?

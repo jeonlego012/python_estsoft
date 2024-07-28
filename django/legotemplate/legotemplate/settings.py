@@ -42,6 +42,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.kakao',
     'social_django',
     'django_extensions',
     'index',
@@ -56,6 +61,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'legotemplate.urls'
@@ -66,6 +72,7 @@ AUTHENTICATION_BACKENDS = [
     # 'social_core.backends.facebook.FacebookOAuth2',
     # 'social_core.backends.twitter.TwitterOAuth',
     'social_core.backends.google.GoogleOAuth2',
+    'allauth.account.auth_backends.AuthenticationBackend',
 ]
 # desktop app
 # SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.getenv('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY_DESKTOP') # Google Client ID
@@ -96,8 +103,15 @@ SOCIAL_AUTH_PIPELINE = [
     'social_core.pipeline.social_auth.load_extra_data',
     'social_core.pipeline.user.user_details',
 ]
-
+# OAUTH - google
 LOGIN_REDIRECT_URL = reverse_lazy('index:index')
+
+# OAUTH - kakao
+SITE_ID = 1
+SOCIALACCOUNT_LOGIN_ON_GET = True
+LOGIN_REDIRECT_URL = '/index'
+# ACCOUNT_LOGOUT_REDIRECT_URL = '/index'
+# ACCOUNT_LOGOUT_ON_GET = True
 
 # SMTP
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

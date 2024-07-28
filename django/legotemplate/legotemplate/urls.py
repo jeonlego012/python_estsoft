@@ -23,5 +23,6 @@ urlpatterns = [
     path('authapp/', include('authapp.urls')),
     
     re_path(r'^', include('social_django.urls', namespace='social')),
+    path('index/', include('allauth.urls')),
 
 ]
