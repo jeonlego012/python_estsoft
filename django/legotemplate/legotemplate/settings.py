@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.kakao',
+    'allauth.socialaccount.providers.naver',
     'social_django',
     'django_extensions',
     'index',
@@ -113,13 +114,24 @@ LOGIN_REDIRECT_URL = '/index'
 # ACCOUNT_LOGOUT_REDIRECT_URL = '/index'
 # ACCOUNT_LOGOUT_ON_GET = True
 
+# OAUTH - naver
+SOCIALACCOUNT_PROVIDERS = {
+    "naver": {
+        "APP": {
+            "client_id": os.getenv('SOCIAL_AUTH_NAVER_ALLAUTH_CLIENT_ID'),
+            "secret": os.getenv('SOCIAL_AUTH_NAVER_ALLAUTH_CLIENT_SECRET'),
+            "key": ""
+        },
+    }
+}
+
 # SMTP
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.naver.com'
-EMAIL_USE_TILS = True
+EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD'),
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')

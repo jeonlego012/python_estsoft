@@ -40,8 +40,8 @@ class StaticView(TemplateView):
 def send_email(request):
     subject = 'test title'
     to = ["jyo9873@gmail.com"]
-    from_email = "inu5123@naver.com"
     message = 'test contents'
-    EmailMessage(subject=subject, body=message, to=to, from_email=from_email).send()
     
-    return HttpResponse('email ok')
+    EmailMessage(subject=subject, body=message, to=to).send()
+    
+    return HttpResponse(f'email ok ')

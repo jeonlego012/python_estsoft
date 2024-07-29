@@ -151,9 +151,12 @@ class StaticView(FormView):
             username = userform.data["username"]
             password = userform.data["password"]
             password2 = userform.data["password2"]
+            is_admin = False
+            if 'is_admin' in userform.data.keys():
+                is_admin = userform.data["is_admin"]
         
             if password == password2:
-                user = User.objects.create_user(email=email, username=username, password=password)
+                user = User.objects.create_user(email=email, username=username, password=password, is_superuser=is_admin, is_staff=is_admin)
                 login(request, user, backend='django.contrib.auth.backends.ModelBackend')
                 
                 self.success_url = '/index/index.html'

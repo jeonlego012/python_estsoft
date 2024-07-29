@@ -57,10 +57,10 @@
                 <span class="profile-address">{{ user.username }}</span>
                 <img src="/static/authapp/images/profile.jpg" class="rounded-circle" alt="" />
               </li>
-              <li class="nav-item uppercase-link">
+              <li class="nav-item uppercase-link" style="padding-left: 10px;">
                 <form method="POST">
                   {% csrf_token %}
-                  <input type="submit" value="Logout" class="nav-link" />
+                  <input type="submit" class="btn btn-default btn-lg" value="Logout"/>
                 </form>
               </li>
             {% else %}
@@ -84,13 +84,12 @@
             <li class="active">
               <a href="index.html">Dashboard</a>
             </li>
-
+            <li>
+              <a href="{% url 'index:send_email' %}">Send Email</a>
+            </li>
             <li>
               <a href="#monitoring" data-toggle="collapse" aria-expanded="false">Monitoring<span class="sub-nav-icon"><i class="stroke-arrow"></i></span></a>
               <ul id="monitoring" class="nav nav-second collapse">
-                <li>
-                  <a href="{% url 'index:send_email' %}">Send Email</a>
-                </li>
                 <li>
                   <a href="usage.html">Usage</a>
                 </li>

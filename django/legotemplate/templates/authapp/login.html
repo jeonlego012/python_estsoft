@@ -48,9 +48,10 @@
                 <div class="form-group">{{ userform.as_div }}</div>
                 <div>
                   <input type="submit" class="btn btn-accent" value="Login" /><br /><br />
-                  <img class = "kakao" onclick="location.href= '{% url 'social:begin' 'google-oauth2' %}'" src="/static/authapp/images/google_login.png" alt="" ></button><br><br>
+                  <button type="button" class = "google" onclick="location.href= '{% url 'social:begin' 'google-oauth2' %}'" style="background: url('/static/authapp/images/google_login.png') no-repeat; border:0; width:180px; height:40px" alt=""></button><br>
                   {% load socialaccount %}
-                  <img class = "kakao" onclick="location.href= '{% provider_login_url 'kakao' method='oauth2' %}'" src="/static/authapp/images/kakao_login.png" alt=""><br><br>
+                  <button type="button" class = "kakao" onclick="location.href= '{% provider_login_url 'kakao' method='oauth2' %}'"  style="background: url('/static/authapp/images/kakao_login.png') no-repeat; border:0; width:186px; height:48px;" alt=""></button><br>
+                  <button type="button" class = "naver" onclick="location.href= '{% provider_login_url 'naver' method='oauth2' %}'"  style="background: url('/static/authapp/images/naver_login.png') no-repeat; border:0; width:200px; height:56px; background-size: 200px;" alt=""></button><br>
                   No account?
                   <a href="/authapp/register.html">Register</a><br />
                   Forgot password?

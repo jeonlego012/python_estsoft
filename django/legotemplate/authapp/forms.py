@@ -1,4 +1,4 @@
-from django.forms import ModelForm, TextInput, PasswordInput, EmailInput
+from django.forms import ModelForm, TextInput, PasswordInput, EmailInput, CheckboxInput, HiddenInput
 from django import forms
 
 from .models import User
@@ -69,8 +69,18 @@ class UserRegisterForm(forms.Form):
             },
         ),
     )
+    is_admin = forms.BooleanField(
+        label = 'I am staff',
+        widget = CheckboxInput(
+            attrs = {
+                'value': 'True',
+            }
+        ),
+    )
+    
     
 '''
+
 class UserRegisterModelForm(ModelForm):
     class Meta:
         model = User
