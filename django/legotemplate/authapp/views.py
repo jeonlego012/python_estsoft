@@ -70,7 +70,7 @@ def register(request):
     context = {
         'userform': userform,
     }
-    return render(request, 'rbacauth/register.html', context)
+    return render(request, 'authapp/register.html', context)
 
 def changePassword(request):
     if request.method == "POST":
