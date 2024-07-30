@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-(3pdg9@c6*_qyo6@yhv)kom@52889i(^r*_3#go+ijwp=p5cu5'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -50,8 +50,11 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.naver',
     'social_django',
     'django_extensions',
+    'crispy_forms',
+    'crispy_bootstrap4',
     'index',
     'authapp',
+    'rbacauth',
 ]
 
 MIDDLEWARE = [
@@ -114,16 +117,22 @@ LOGIN_REDIRECT_URL = '/index'
 # ACCOUNT_LOGOUT_REDIRECT_URL = '/index'
 # ACCOUNT_LOGOUT_ON_GET = True
 
-# OAUTH - naver
+# ACCOUNT_UNIQUE_EMAIL = True
+# ACCOUNT_EMAIL_REQUIRED = True
+
+# OAUTH - kakao
 SOCIALACCOUNT_PROVIDERS = {
-    "naver": {
+    "kakao": {
         "APP": {
-            "client_id": os.getenv('SOCIAL_AUTH_NAVER_ALLAUTH_CLIENT_ID'),
-            "secret": os.getenv('SOCIAL_AUTH_NAVER_ALLAUTH_CLIENT_SECRET'),
+            "client_id": os.getenv('SOCIAL_AUTH_KAKAO_ALLAUTH_CLIENT_ID'),
+            "secret": os.getenv('SOCIAL_AUTH_KAKAO_ALLAUTH_CLIENT_SECRET'),
             "key": ""
         },
     }
 }
+
+# RBAC
+AUTH_USER_MODEL = 'rbacauth.CustomUser'
 
 # SMTP
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -180,6 +189,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {
+            'min_length': 12,
+        },
     },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
@@ -206,6 +218,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
+
+CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 # https://docs.djangoproject.com/en/5.0/ref/settings/#static-files
 # python manage.py collectstatic 명령이 참조하는 설정

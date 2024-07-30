@@ -8,7 +8,7 @@ class User(models.Model):
     email = models.EmailField(null=True)
     
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
-    is_admin = models.BooleanField()
+    is_admin = models.BooleanField(null=True)
 
     def __str__(self):
         return f'Model User) username={self.username}, email={self.email}'

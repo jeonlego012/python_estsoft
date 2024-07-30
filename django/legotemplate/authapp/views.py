@@ -6,9 +6,10 @@ from django.contrib.auth.models import User
 from django.views.generic import FormView
 from django.template import TemplateDoesNotExist
 from django.http import Http404
+from django.contrib import messages
 
 from .forms import UserLoginModelForm, UserRegisterForm, UserChangePasswordForm
-
+from rbacauth.forms import RegistrationForm
 
 # Create your views here.
 def login_view(request):
@@ -69,7 +70,7 @@ def register(request):
     context = {
         'userform': userform,
     }
-    return render(request, 'authapp/register.html', context)
+    return render(request, 'rbacauth/register.html', context)
 
 def changePassword(request):
     if request.method == "POST":
@@ -119,7 +120,8 @@ class StaticView(FormView):
         if self.kwargs["page"] == "login.html":
             userform = UserLoginModelForm(label_suffix='')
         elif self.kwargs["page"] == "register.html":
-            userform = UserRegisterForm(label_suffix='')
+            # userform = UserRegisterForm(label_suffix='')
+            userform = RegistrationForm()
         context = {
             'userform': userform,
         }
@@ -145,25 +147,47 @@ class StaticView(FormView):
                 return self.render_to_response(context) 
                 
         elif page == "register.html":
-            userform = UserRegisterForm(request.POST)
+            # userform = UserRegisterForm(request.POST)
 
-            email = userform.data["email"]
-            username = userform.data["username"]
-            password = userform.data["password"]
-            password2 = userform.data["password2"]
-            is_admin = False
-            if 'is_admin' in userform.data.keys():
-                is_admin = userform.data["is_admin"]
+            # email = userform.data["email"]
+            # username = userform.data["username"]
+            # password = userform.data["password"]
+            # password2 = userform.data["password2"]
+            # is_admin = False
+            # if 'is_admin' in userform.data.keys():
+            #     is_admin = userform.data["is_admin"]
         
-            if password == password2:
-                user = User.objects.create_user(email=email, username=username, password=password, is_superuser=is_admin, is_staff=is_admin)
-                login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+            # if password == password2:
+            #     user = User.objects.create_user(email=email, username=username, password=password, is_superuser=is_admin, is_staff=is_admin)
+            #     login(request, user, backend='django.contrib.auth.backends.ModelBackend')
                 
-                self.success_url = '/index/index.html'
-                return HttpResponseRedirect(self.success_url)
+            #     self.success_url = '/index/index.html'
+            #     return HttpResponseRedirect(self.success_url)
             
-        
-        
+            
+            form = RegistrationForm(request.POST)
+            if form.is_valid():
+                user = form.save(commit=False)
+                username = form.cleaned_data['username']
+                password1 = form.cleaned_data['password1']
+                password2 = form.cleaned_data['password2']
+                print(f"result!!!! {username} {password1}")
+                
+                if password1 == password2:
+                    user.set_password(password1)
+                    user.save()
+                    
+                    messages.success(request, f'Your account has been created {username}! Proceed to log in')
+                    self.success_url = '/authapp/login.html'
+                    return HttpResponseRedirect(self.success_url)
+                else:
+                    form.add_error('password2', 'Passwords entered do not match')
+            else:
+                form = RegistrationForm()
+            
+            return render(request, 'authapp/register.html', {'userform': form})
+
+
         try:
             return self.render_to_response(context)
         except TemplateDoesNotExist:
