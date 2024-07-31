@@ -6,9 +6,10 @@ from django.contrib.auth.models import User
 from django.views.generic import FormView
 from django.template import TemplateDoesNotExist
 from django.http import Http404
+from django.contrib import messages
 
 from .forms import UserLoginModelForm, UserRegisterForm, UserChangePasswordForm
-
+from rbacauth.forms import RegistrationForm
 
 # Create your views here.
 def login_view(request):
@@ -34,6 +35,8 @@ def login_view(request):
 
 def register(request):
     if request.method == "POST":
+        
+        # ModelForm 방식
         '''
         userform = UserRegisterModelForm(request.POST)
     
@@ -47,6 +50,7 @@ def register(request):
         return redirect('index:index')
         '''
         
+        # Form 방식
         userform = UserRegisterForm(request.POST)
 
         email = userform.data["email"]
@@ -119,7 +123,8 @@ class StaticView(FormView):
         if self.kwargs["page"] == "login.html":
             userform = UserLoginModelForm(label_suffix='')
         elif self.kwargs["page"] == "register.html":
-            userform = UserRegisterForm(label_suffix='')
+            # userform = UserRegisterForm(label_suffix='')
+            userform = RegistrationForm()
         context = {
             'userform': userform,
         }
@@ -145,6 +150,8 @@ class StaticView(FormView):
                 return self.render_to_response(context) 
                 
         elif page == "register.html":
+            # User 방식
+            '''
             userform = UserRegisterForm(request.POST)
 
             email = userform.data["email"]
@@ -161,9 +168,31 @@ class StaticView(FormView):
                 
                 self.success_url = '/index/index.html'
                 return HttpResponseRedirect(self.success_url)
+            '''
             
-        
-        
+            # CustomUser 방식
+            form = RegistrationForm(request.POST)
+            if form.is_valid():
+                user = form.save(commit=False)
+                username = form.cleaned_data['username']
+                password1 = form.cleaned_data['password1']
+                password2 = form.cleaned_data['password2']
+                
+                if password1 == password2:
+                    user.set_password(password1)
+                    user.save()
+                    
+                    messages.success(request, f'Your account has been created {username}! Proceed to log in')
+                    self.success_url = '/authapp/login.html'
+                    return HttpResponseRedirect(self.success_url)
+                else:
+                    form.add_error('password2', 'Passwords entered do not match')
+            else:
+                form = RegistrationForm()
+            
+            return render(request, 'authapp/register.html', {'userform': form})
+
+
         try:
             return self.render_to_response(context)
         except TemplateDoesNotExist:

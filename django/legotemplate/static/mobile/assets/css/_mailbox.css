@@ -1,0 +1,63 @@
+
+/*----------------------------------------
+  Mailbox / Messages
+------------------------------------------*/
+.collection.mailbox .collection-item.avatar :not(.circle-clipper)>.circle{
+  left: 20px;
+}
+.collection.mailbox .collection-item{
+  padding: 0px 0px;
+}
+.collection.mailbox .from{
+  font-size: 80%;
+  display: block;
+  opacity: 0.8;
+}
+.collection.mailbox .title{
+  text-transform: none;
+}
+.collection.mailbox.messages .title{
+  text-transform: uppercase;
+}
+.collection.mailbox .collection-item.avatar img{
+  position: absolute;
+  top: 20px;
+  margin-top: 0px;
+}
+.collection .collection-item .maillink{
+  color: var(--dark-700);
+  padding: 15px 20px 15px 75px;
+  display: inline-block;
+  width: 100%;
+}
+
+.collection.mailbox .collection-item.avatar .secondary-content{
+  position: absolute;
+  top: 40px;
+  margin-top: 0px;
+  right: 15px;
+}
+.collection.mailbox .time{
+  position: absolute;
+  top: 0%;
+  margin-top: 15px;
+  right: 20px;
+  font-size: 80%;
+  opacity: 0.8;
+
+}
+.collection.mailbox .mail-reply{
+  position: relative;
+  padding: 20px;
+  vertical-align: top;
+  margin-bottom: 0px;
+}
+.collection.mailbox .mail-reply label{
+  left: 20px;
+}
+.collection.mailbox.messages p{
+  padding-right: 30px;
+}
+.mailview .title{
+  margin-bottom: 10px;
+}
