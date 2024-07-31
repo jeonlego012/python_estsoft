@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'index',
     'authapp',
     'rbacauth',
+    'mobile', # ajax practice
 ]
 
 MIDDLEWARE = [

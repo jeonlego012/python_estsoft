@@ -21,6 +21,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('index/', include('index.urls')),
     path('authapp/', include('authapp.urls')),
+    path('mobile/', include('mobile.urls')),
     
     re_path(r'^', include('social_django.urls', namespace='social')),
     path('index/', include('allauth.urls')),
