@@ -9,7 +9,7 @@ from django.http import Http404
 from django.contrib import messages
 
 from .forms import UserLoginModelForm, UserRegisterForm, UserChangePasswordForm
-from rbacauth.forms import RegistrationForm
+from rbacauth.forms import RegistrationForm, LogInForm 
 
 # Create your views here.
 def login_view(request):
@@ -35,6 +35,8 @@ def login_view(request):
 
 def register(request):
     if request.method == "POST":
+        
+        # ModelForm 방식
         '''
         userform = UserRegisterModelForm(request.POST)
     
@@ -48,6 +50,7 @@ def register(request):
         return redirect('index:index')
         '''
         
+        # Form 방식
         userform = UserRegisterForm(request.POST)
 
         email = userform.data["email"]
@@ -117,14 +120,17 @@ class StaticView(FormView):
             raise Http404()
         
     def get_context_data(self, **kwargs):
+        context = {}
+        
         if self.kwargs["page"] == "login.html":
-            userform = UserLoginModelForm(label_suffix='')
+            # userform = UserLoginModelForm(label_suffix='')
+            userform = LogInForm()
+            context['userform'] = userform
         elif self.kwargs["page"] == "register.html":
             # userform = UserRegisterForm(label_suffix='')
             userform = RegistrationForm()
-        context = {
-            'userform': userform,
-        }
+            context['userform'] = userform
+            
         return context
     
     def post(self, request, page, *args, **kwargs):
@@ -132,6 +138,8 @@ class StaticView(FormView):
         context = self.get_context_data(**kwargs)
         
         if page == "login.html":
+            # User 방식
+            '''
             userform = UserLoginModelForm(request.POST)
             username = userform.data["username"]
             password = userform.data["password"]
@@ -144,34 +152,62 @@ class StaticView(FormView):
                 
                 return HttpResponseRedirect(self.success_url)
             else:
-                return self.render_to_response(context) 
+                return self.render_to_response(context)
+            '''
+            # CustomUser 방식
+            form = LogInForm(request.POST)
+            print(f"result!!! request {request.POST}")
+            print(f"result!!! {form.is_valid()} form {form}")
+            if form.is_valid():
+                user = form.save(commit=False)
+                username = form.cleaned_data['username']
+                password = form.cleaned_data['password']
+                
+                print(f"result!!! username {username}")
+            
+                # user.login(password)
+                user.save()
+                
+                messages.success(request, f'Welcome {username}!')
+                self.success_url = '/index/index.html'
+                return HttpResponseRedirect(self.success_url)
+                
+            else:
+                form = RegistrationForm()
+            
+            return render(request, 'authapp/register.html', {'userform': form})
+            
                 
         elif page == "register.html":
-            # userform = UserRegisterForm(request.POST)
+            # User 방식
+            '''
+            userform = UserRegisterForm(request.POST)
 
-            # email = userform.data["email"]
-            # username = userform.data["username"]
-            # password = userform.data["password"]
-            # password2 = userform.data["password2"]
-            # is_admin = False
-            # if 'is_admin' in userform.data.keys():
-            #     is_admin = userform.data["is_admin"]
+            email = userform.data["email"]
+            username = userform.data["username"]
+            password = userform.data["password"]
+            password2 = userform.data["password2"]
+            is_admin = False
+            if 'is_admin' in userform.data.keys():
+                is_admin = userform.data["is_admin"]
         
-            # if password == password2:
-            #     user = User.objects.create_user(email=email, username=username, password=password, is_superuser=is_admin, is_staff=is_admin)
-            #     login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+            if password == password2:
+                user = User.objects.create_user(email=email, username=username, password=password, is_superuser=is_admin, is_staff=is_admin)
+                login(request, user, backend='django.contrib.auth.backends.ModelBackend')
                 
-            #     self.success_url = '/index/index.html'
-            #     return HttpResponseRedirect(self.success_url)
+                self.success_url = '/index/index.html'
+                return HttpResponseRedirect(self.success_url)
+            '''
             
-            
+            # CustomUser 방식
             form = RegistrationForm(request.POST)
+            print(f"result!!! request {request.POST}")
+            print(f"result!!! {form.is_valid()} form {form}")
             if form.is_valid():
                 user = form.save(commit=False)
                 username = form.cleaned_data['username']
                 password1 = form.cleaned_data['password1']
                 password2 = form.cleaned_data['password2']
-                print(f"result!!!! {username} {password1}")
                 
                 if password1 == password2:
                     user.set_password(password1)
