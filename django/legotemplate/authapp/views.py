@@ -167,10 +167,10 @@ class StaticView(FormView):
                     form.add_error('password', form.error_messages)
                
             else:
-                form = RegistrationForm()
+                form = LogInForm()
                 messages.error(request, f'{list(form.error_messages.values())[0]}')
             
-            return render(request, 'authapp/register.html', {'userform': form})
+            return render(request, 'authapp/login.html', {'userform': form})
             
                 
         elif page == "register.html":
