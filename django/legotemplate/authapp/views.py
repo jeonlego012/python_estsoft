@@ -155,25 +155,20 @@ class StaticView(FormView):
                 return self.render_to_response(context)
             '''
             # CustomUser 방식
-            form = LogInForm(request.POST)
-            print(f"result!!! request {request.POST}")
-            print(f"result!!! {form.is_valid()} form {form}")
+            form = LogInForm(request, request.POST)
             if form.is_valid():
-                user = form.save(commit=False)
-                username = form.cleaned_data['username']
-                password = form.cleaned_data['password']
-                
-                print(f"result!!! username {username}")
-            
-                # user.login(password)
-                user.save()
-                
-                messages.success(request, f'Welcome {username}!')
-                self.success_url = '/index/index.html'
-                return HttpResponseRedirect(self.success_url)
-                
+                user = form.get_user()
+                try:
+                    login(request, user)
+                    messages.success(request, f'Welcome {user.username}!')
+                    self.success_url = '/index/index.html'
+                    return HttpResponseRedirect(self.success_url)
+                except:
+                    form.add_error('password', form.error_messages)
+               
             else:
                 form = RegistrationForm()
+                messages.error(request, f'{list(form.error_messages.values())[0]}')
             
             return render(request, 'authapp/register.html', {'userform': form})
             
@@ -201,17 +196,13 @@ class StaticView(FormView):
             
             # CustomUser 방식
             form = RegistrationForm(request.POST)
-            print(f"result!!! request {request.POST}")
-            print(f"result!!! {form.is_valid()} form {form}")
             if form.is_valid():
-                user = form.save(commit=False)
                 username = form.cleaned_data['username']
                 password1 = form.cleaned_data['password1']
                 password2 = form.cleaned_data['password2']
                 
                 if password1 == password2:
-                    user.set_password(password1)
-                    user.save()
+                    form.save(commit=True)
                     
                     messages.success(request, f'Your account has been created {username}! Proceed to log in')
                     self.success_url = '/authapp/login.html'
@@ -220,6 +211,7 @@ class StaticView(FormView):
                     form.add_error('password2', 'Passwords entered do not match')
             else:
                 form = RegistrationForm()
+                messages.error(request, f'{list(form.error_messages.values())[0]}')
             
             return render(request, 'authapp/register.html', {'userform': form})
 

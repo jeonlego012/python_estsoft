@@ -59,4 +59,4 @@ class LogInForm(AuthenticationForm):
     )
     class Meta:
         model = CustomUser
-        fields = ('username')
+        fields = ('username', 'password')
